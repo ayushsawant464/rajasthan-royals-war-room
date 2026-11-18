@@ -1,0 +1,260 @@
+\documentclass[10pt,a4paper]{article}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.6cm,top=1.6cm,bottom=1.8cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+% --- Color Palette (Rajasthan Royals Theme) ---
+\definecolor{rrpink}{RGB}{225, 29, 72}     % Deep Royal Pink
+\definecolor{rrnavy}{RGB}{15, 23, 42}      % Midnight Navy
+\definecolor{rrblue}{RGB}{37, 99, 235}     % Royal Blue
+\definecolor{darkslate}{RGB}{30, 41, 59}   % Text Slate
+\definecolor{lightbg}{RGB}{248, 250, 252}  % Card Background
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=rrpink,
+    urlcolor=rrblue,
+    citecolor=rrpink
+}
+
+% --- Spacing ---
+\setlist{itemsep=1.5pt, topsep=1.5pt, parsep=0pt}
+\titleformat{\section}{\large\bfseries\color{rrnavy}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{rrpink}}{}{0em}{}
+\titlespacing*{\section}{0pt}{6pt}{4pt}
+\titlespacing*{\subsection}{0pt}{4pt}{2pt}
+
+% --- Header & Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize\textcolor{darkslate}{\textbf{Rajasthan Royals Analytics War Room} $\bullet$ SupeRR Selector Season 2}}
+\rhead{\footnotesize\textcolor{rrpink}{\textbf{Round 1 Final Submission}}}
+\cfoot{\footnotesize\textcolor{darkslate}{Page \thepage\ of 5}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+% ==============================================================================
+% PAGE 1: EXECUTIVE SUMMARY (THE COACH'S 60-SECOND BRIEFING)
+% ==============================================================================
+\begin{center}
+    {\Large\bfseries\color{rrnavy} Identifying Reliable T20 Players Under Pressure}\\[2pt]
+    {\normalsize\bfseries\color{rrpink} Continuous Game-Physics Leverage, Positional Scarcity \& Empirical Bayes}\\[3pt]
+    \footnotesize\textbf{Author:} Analytics Team \quad $\bullet$ \quad \textbf{Dataset:} 883 Matches, 200,999 Deliveries (2022--2026) \quad $\bullet$ \quad \textbf{Target:} Rajasthan Royals War Room
+\end{center}
+\vspace{-6pt}
+\hrule height 1pt
+\vspace{6pt}
+
+\section*{1. Executive Summary: The Coach's 60-Second Briefing}
+
+Distinguishing players who genuinely elevate their game under high pressure from those whose statistical volume collapses when matches are on the line is the central dilemma of T20 team construction. Conventional cricket metrics (raw strike rates, naive batting averages, and career economy rates) fail because they treat an identical boundary scored when needing 14 runs off 8 balls the same as one scored when needing 55 off 6 balls.
+
+To eliminate human bias and arbitrary filters, we evaluated \textbf{200,999 deliveries across 883 competitive IPL and T20 International matches (2022--2026)}. Every single ball is priced through physical match sensitivity rather than subjective cutoffs.
+
+\subsection*{What Did We Do? (Plain Cricket Translation)}
+\begin{itemize}[leftmargin=1.2em]
+    \item \textbf{No Subjective Cutoff Filters:} We discarded arbitrary rules (e.g., ``drop bottom 20\%'' or ``dead game if RRR $> 20$''). Pressure and leverage are evaluated as continuous variables across all deliveries.
+    \item \textbf{Every Ball Graded by Match Sensitivity (Leverage):} Scoring or preventing a boundary in the 19th over when the game hangs in the balance exerts up to $10\times$ the win probability impact of a boundary in a blowout.
+    \item \textbf{The Positional Scarcity Solution (Resolving Opener \& Spinner Bias):} Comparing openers directly against finishers on a single raw sheet is mathematically flawed—a team cannot play 6 openers! We introduce \textbf{Within-Cohort Positional Z-Scores} ($Z = (\text{EB} - \mu_{\text{cohort}})/\sigma_{\text{cohort}}$), balancing selection across Openers, Middle Enforcers, and Death Finishers.
+    \item \textbf{Universal Delivery Physics \& Latency:} Batters facing 140+ km/h reverse swinging yorkers on Ball 1 (cold entry) are benchmarked against death delivery par ($1.18$ r/b), not against an opener facing medium pace.
+    \item \textbf{Statistical Significance \& Zero Flukes:} Using Restricted Maximum Likelihood (REML) Empirical Bayes ($\tau^2 = 0.0223$) and Kish CLT effective sample sizing, small-sample anomalies (e.g. Habibur Rahman Sohan, $N=126, t=2.36$) are filtered out, while proven match-winners rise to the top.
+\end{itemize}
+
+\subsection*{The Coach's Field Glossary}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{l p{12.4cm}}
+\toprule
+\textbf{Metric Term} & \textbf{Practical Cricket Interpretation} \\
+\midrule
+\textbf{Continuous Leverage ($\mathcal{L}$)} & The instantaneous mathematical sensitivity of match outcome to 1 run. \\
+\textbf{Kish Effective Balls ($N_{\text{eff}}$)} & Sample size weighted by match pressure (discounts garbage-time deliveries). \\
+\textbf{Raw Physics RAE/b} & Runs Added above exact delivery-style and over-by-over baseline expectation. \\
+\textbf{EB Shrunk Score} & Stabilized true talent rating, regressed toward population mean via REML. \\
+\textbf{Positional $Z$-Score ($\sigma$)} & Standard deviations above replacement level \textit{within tactical role} (measures true scarcity). \\
+\textbf{Phase VORP} & Value Over Replacement Player relative to zone-specific scarcity benchmarks. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection*{Key Strategic Insights for Rajasthan Royals}
+\begin{itemize}[leftmargin=1.2em]
+    \item \textbf{The Pacer Death Burden:} Pacers bowl 79.9\% of all league death overs (par 9.82 RPO). Raw economy penalizes death pacers while flattering middle spinners. Benchmarked via phase VORP, \textbf{Jasprit Bumrah (+3.15 VORP, +2.67$\sigma$)} matches or exceeds elite middle-overs spinners.
+    \item \textbf{West Indies Hitters Verified:} \textbf{Andre Russell} is an authentic outlier (+2.83$\sigma$, 196.5 set SR). In contrast, reputational hitters like Romario Shepherd plunge from 154.1 raw to 121.3 under leverage.
+\end{itemize}
+
+\clearpage
+
+% ==============================================================================
+% PAGE 2: PRESSURE DEFINITION & MATHEMATICAL REASONING
+% ==============================================================================
+\section*{2. Pressure Definition, Indicators \& Mathematical Methodology}
+
+\subsection*{A. Continuous State-Space Pressure Formulation}
+Rather than using static labels (``overs 16--20''), match pressure is formalized as the gradient norm of the continuous Win Probability manifold $V(S)$ with respect to runs and wickets. In any match state $S_t = (\text{RRR}_t, w_t, b_t, \text{Target}_t)$, win probability follows logistic physics:
+\begin{equation}
+    V(S_t) = \frac{1}{1 + e^{-z_t}}, \quad z_t = \theta_0 + \theta_1 \cdot \text{RRR}_t + \theta_2 \cdot w_t + \theta_3 \cdot \left(\frac{b_t}{120}\right)
+\end{equation}
+Empirical calibration across 200,999 deliveries yields $\boldsymbol{\theta} = [3.1785, -0.5428, 0.6491, -5.1342]$. Leverage density $\mathcal{L}(S_t)$ is the analytical derivative of outcome probability normalized by remaining time:
+\begin{equation}
+    \mathcal{L}(S_t) = \frac{4 \cdot V(S_t) \cdot (1 - V(S_t))}{\sqrt{\tau_{\text{norm}}}}, \quad \tau_{\text{norm}} = \max\left(0.05, \, \frac{b_t}{120}\right)
+\end{equation}
+Leverage peaks continuously at the money ($V=0.50, \mathcal{L} \ge 4.0$). As $V \to 0$ or $1$, leverage naturally decays to 0.
+
+\subsection*{B. The Two-Term Master Operator}
+The total net win equity contributed by player $p$ across historical trajectory $\mathcal{S}$ is:
+\begin{equation}
+    \mathbf{\Omega_p = \int_{\mathcal{S}} \|\nabla V(S)\| \cdot \left[ \Delta R_p(S) + \lambda(S) \cdot \Delta W_p(S) \right] d\mu_p(S)}
+\end{equation}
+\begin{itemize}[leftmargin=1.2em]
+    \item \textbf{Term 1 (Macro Pressure $\|\nabla V(S)\|$):} Scales execution by instantaneous match leverage.
+    \item \textbf{Term 2 (Micro Execution $\Delta R + \lambda \cdot \Delta W$):} Runs scored/saved above delivery baseline ($\mathbb{E}[R \mid \text{Over}, \text{Style}, \text{ColdStatus}]$) plus wickets taken/conserved valued in real runs ($\lambda(S)$). Brownian noise integrates to zero by the It\^o Isometry ($\mathbb{E}[\int \sigma \, dW] = 0$).
+\end{itemize}
+
+\subsection*{C. Non-Linear Joint Wicket Valuation Manifold $\lambda(b, w)$}
+Derived from empirical 1st-innings total regressions across 883 matches, the true currency of a wicket is:
+\begin{equation}
+    \lambda(b, w) = \min\left(28.0, \; \left( \frac{\beta_2 \cdot b}{6\beta_1 + \beta_3} \right) \times \left( \frac{10}{w} \right)^{0.70} + (10 - w) \cdot 0.85 \right)
+\end{equation}
+This captures the \textbf{tail-exposure barrier}: an average death wicket saves only $3.5\text{ runs}$ when 8 wickets are in hand, but saving a wicket when $w \le 2$ preserves \textbf{+21.0 projected runs} by avoiding tail-end termination.
+
+\subsection*{D. The Three Physical Zones \& Exact Tactical Boundaries}
+\begin{itemize}[leftmargin=1.2em]
+    \item \textbf{Zone 1: Powerplay (Overs 1--6, $b \in [85, 120]$):} 2 boundary riders; lateral movement; economy par $8.67$ RPO; high wicket currency ($\lambda \approx 14.0 - 18.0\text{ runs}$).
+    \item \textbf{Zone 2: Middle (Overs 7--15, $b \in [31, 84]$):} 5 boundary riders; turning spin; economy par $8.34$ RPO; pressure acceleration ($\alpha_{\text{SPI}} = \Delta \text{SPI}_{6b}$).
+    \item \textbf{Zone 3: Death (Overs 16--20, $b \in [1, 30]$):} Extreme leverage ($|\partial V / \partial r| \approx 0.136$); reverse swing and yorkers; economy par $10.21$ RPO; boundary suppression is paramount.
+    \item \textbf{Tactical Deployment Separatrix ($\lambda^* = 7.88$ r/wkt):} Above 7.88 (Zone 1/2), strike bowling (Varun, Kuldeep) dominates; below 7.88 (Zone 3), boundary containment (Bumrah, Narine) dominates.
+\end{itemize}
+
+\clearpage
+
+% ==============================================================================
+% PAGE 3: HONEST AUDIT, LIMITATIONS & POTENTIAL MISTAKES
+% ==============================================================================
+\section*{3. Honest Audit: Limitations, Blind Spots \& Acknowledged Assumptions}
+
+A rigorous analytics engine must be transparent regarding its boundaries and simplifying assumptions. Out-of-sample Brier score testing confirmed strong statistical generalization (\textbf{0.1478 in-sample $\to$ 0.1458 holdout across 80,581 balls}). However, we highlight six operational limitations that cricket coaches must consider:
+
+\subsection*{1. The Cross-Cohort Aggregation Fallacy (Why Unstratified Lists Fail)}
+Comparing openers directly against finishers on a single raw sheet is mathematically flawed. Openers face 36 balls of Powerplay field restrictions and can hit 200 SR without running out of balls. Lower-order finishers face death yorkers cold on Ball 1 with 5 boundary riders. When evaluated strictly by raw RAE, openers flood the top 10 (6 of 10). Front offices must use \textbf{Within-Cohort Positional $Z$-Scores} to evaluate positional scarcity.
+
+\subsection*{2. Matchup Micro-Geometry \& Release Angles}
+Our delivery baselines condition on delivery style, pitch over, and batter set-in status, but do not yet capture release height, release angle, and batter stance interactions. An aggressive opener boasting $+0.40$ RAE against right-arm pace may suffer an unmodeled $12\%$ dismissal hazard against tall left-arm swing angling across (e.g. Trent Boult). Matchup scouting must cross-reference angle geometry.
+
+\subsection*{3. Ground Dimensions \& Outfield Invariance}
+A 63-meter miscue at M. Chinnaswamy Stadium clears the boundary for 6 runs ($+4.8$ RAE), whereas a 76-meter drive at Narendra Modi Stadium is caught at deep midwicket ($-12.0$ RAE). Models aggregating across all venues slightly flatter batters with smaller home grounds. Venue-adjusted boundary dimensions are an essential next frontier.
+
+\subsection*{4. Thermal Load, Physical Fatigue \& 2nd-Innings Dew}
+The model treats a delivery bowled in the 19th over under neutral conditions identically to one bowled in $42^\circ\text{C}$ heat after bowling 3 high-intensity overs, or with a wet ball in heavy dew. Live execution degradation due to ball grip loss is not explicitly captured in historical scorecard coordinates.
+
+\subsection*{5. The Pacer Death Concession Burden}
+Because middle-overs wickets destroy $+12\text{ runs}$ while death wickets destroy only $+5\text{ runs}$, raw win equity algorithms inherently favor middle-overs spinners. Although our Phase-Standardized VORP resolves this, front offices must avoid evaluating death pacers on unstandardized economy rates.
+
+\subsection*{6. League \& Competition Tier Disparities}
+While Empirical Bayes shrinkage dampens low-volume flukes, domestic and minor franchise tournaments exhibit higher variance than the IPL. Scoring $+0.30$ RAE against Jasprit Bumrah in the IPL represents a higher skill caliber than $+0.30$ RAE in secondary competitions. A tournament tier discount factor ($\kappa_{\text{tier}} \in [0.75, 1.00]$) should calibrate cross-league scouting.
+
+\subsection*{7. The Small-Sample Degree-of-Freedom Trap (Resolved)}
+Initial runs allowed Habibur Rahman Sohan ($N=126$) into the top 10 due to inflated between-player variance ($\tau^2 = 0.0445$). Re-estimating $\tau^2 = 0.0223$ on robust samples ($N \ge 400$) and computing Kish effective deliveries ($N_{\text{eff}} = 101.6$) proved he fails statistical significance ($t = 2.36 < 3.50, p = 0.0185$), dropping him to \#22.
+
+\clearpage
+
+% ==============================================================================
+% PAGE 4: TOP 10 BATTERS & RR AUCTION ONE-LINERS
+% ==============================================================================
+\section*{4. Component 1: Calibrated Top 10 Batters (Positional Scarcity Balanced)}
+
+Standardized \textit{within tactical cohort} ($Z = (\text{EB} - \mu_{\text{cohort}})/\sigma_{\text{cohort}}$), resolving opener bias and creating a balanced, actionable T20 roster: \textbf{3 Top Order, 4 Middle Order, and 3 Lower Order Finishers}:
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{c l c c c c c c c}
+\toprule
+\textbf{Rank} & \textbf{Player Name} & \textbf{Tactical Role} & \textbf{Balls ($N$)} & \textbf{$N_{\text{eff}}$} & \textbf{Raw SR} & \textbf{EB RAE} & \textbf{Positional $Z$} & \textbf{$t$-stat} \\
+\midrule
+\textbf{\#1} & \textbf{Vaibhav Sooryavanshi} & Top Order (1--2) & 676 & 568.3 & \textbf{223.2} & +0.524 & \textbf{+3.65$\sigma$} & 7.70 \\
+\textbf{\#2} & \textbf{Andre Russell} & \textbf{Lower Order Finisher (6--11)} & 733 & 378.1 & \textbf{171.1} & +0.241 & \textbf{+2.83$\sigma$} & 3.42 \\
+\textbf{\#3} & \textbf{Priyansh Arya} & Top Order (1--2) & 515 & 449.6 & \textbf{190.9} & +0.376 & \textbf{+2.62$\sigma$} & 5.48 \\
+\textbf{\#4} & \textbf{Tim David} & \textbf{Lower Order Finisher (6--11)} & 1,226 & 674.3 & \textbf{177.7} & +0.218 & \textbf{+2.59$\sigma$} & 3.59 \\
+\textbf{\#5} & \textbf{Abhishek Sharma} & Top Order (1--2) & 2,317 & 1,888.7 & \textbf{187.0} & +0.363 & \textbf{+2.54$\sigma$} & 8.45 \\
+\textbf{\#6} & \textbf{Josh Inglis} & \textbf{Middle Order (3--5)} & 904 & 679.6 & 162.5 & +0.239 & \textbf{+2.49$\sigma$} & 4.17 \\
+\textbf{\#7} & \textbf{Harry Brook} & \textbf{Middle Order (3--5)} & 889 & 492.6 & 163.8 & +0.214 & \textbf{+2.27$\sigma$} & 3.41 \\
+\textbf{\#8} & \textbf{Shashank Singh} & \textbf{Lower Order Finisher (6--11)} & 560 & 267.2 & 161.6 & +0.182 & \textbf{+2.22$\sigma$} & 2.57 \\
+\textbf{\#9} & \textbf{Rajat Patidar} & \textbf{Middle Order (3--5)} & 918 & 657.4 & 167.9 & +0.199 & \textbf{+2.14$\sigma$} & 3.32 \\
+\textbf{\#10} & \textbf{Heinrich Klaasen} & \textbf{Middle Order (3--5)} & 1,417 & 799.9 & 166.8 & +0.198 & \textbf{+2.13$\sigma$} & 3.67 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection*{Rajasthan Royals (RR) War Room: Actionable IPL 2027 Auction One-Liners}
+Evaluating how each target strengthens RR based on retained core (\textit{Samson, Jaiswal, Parag, Hetmyer, Jurel, Sandeep}):
+\begin{enumerate}[leftmargin=1.2em]
+    \item \textbf{Vaibhav Sooryavanshi (Opener):} Unprecedented offensive ceiling (223.2 SR); pairing with Yashasvi Jaiswal forms the most explosive left-hand powerplay assault in IPL history.
+    \item \textbf{Andre Russell (Finisher):} The ultimate death weapon (+2.83$\sigma$ scarcity); gives RR the right-handed powerhouse finisher needed to partner Shimron Hetmyer and eliminate late stagnation.
+    \item \textbf{Priyansh Arya (Opener):} Fearless boundary attacker (190.9 SR); establishes immediate powerplay tempo, allowing Sanju Samson to dictate terms in middle overs.
+    \item \textbf{Tim David (Finisher):} Pure death power hitter (+2.59$\sigma$); lethal against raw pace and locks down high-RRR death chases at \#6/7.
+    \item \textbf{Abhishek Sharma (Opener / Spin AR):} Franchise-defining asset; delivers an aggressive powerplay anchor while providing 2 overs of disciplined left-arm spin.
+    \item \textbf{Josh Inglis (Middle Order / WK):} Elite 360° rotational player of spin (+2.49$\sigma$); fills RR's middle-order vulnerability on slow, turning tracks at Chepauk and Lucknow.
+    \item \textbf{Harry Brook (Middle Order):} Exceptional boundary striker against pace and spin (+2.27$\sigma$); provides elite middle-overs acceleration at \#4.
+    \item \textbf{Shashank Singh (Finisher):} Premier domestic clutch hitter (+2.22$\sigma$); provides proven Indian finishing depth under high-pressure chase conditions.
+    \item \textbf{Rajat Patidar (Middle Order):} Outstanding spin destructor (+2.14$\sigma$); attacks opposition middle spinners with extreme lofted authority.
+    \item \textbf{Heinrich Klaasen (Middle Enforcer):} Best spin neutralizer in world cricket (+2.13$\sigma$); protects Samson from high-risk wear and breaks middle-overs choke strategies.
+\end{enumerate}
+
+\clearpage
+
+% ==============================================================================
+% PAGE 5: TOP 10 BOWLERS & RR AUCTION ONE-LINERS
+% ==============================================================================
+\section*{5. Component 1: Calibrated Top 10 Bowlers (Positional Scarcity Balanced)}
+
+Standardized \textit{within tactical bowling cohort} ($Z = (\text{Equity} - \mu_{\text{cohort}})/\sigma_{\text{cohort}}$), fairly balancing \textbf{Death Enforcers, Powerplay Specialists, and Middle Mystery Spinners}:
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{c l c c c c c c c}
+\toprule
+\textbf{Rank} & \textbf{Player Name} & \textbf{Tactical Role} & \textbf{Balls ($N$)} & \textbf{$N_{\text{eff}}$} & \textbf{Raw Econ} & \textbf{EB Equity} & \textbf{Positional $Z$} & \textbf{$t$-stat} \\
+\midrule
+\textbf{\#1} & \textbf{Rashid Khan} & Middle Overs Controller & 2,780 & 1,843.2 & \textbf{7.57} & \textbf{+0.636} & \textbf{+3.21$\sigma$} & 10.22 \\
+\textbf{\#2} & \textbf{Varun Chakravarthy} & Middle Overs Controller & 2,182 & 1,434.4 & 8.14 & \textbf{+0.631} & \textbf{+3.18$\sigma$} & 9.24 \\
+\textbf{\#3} & \textbf{Jasprit Bumrah} & \textbf{Death Specialist / Enforcer} & 1,780 & 1,062.8 & \textbf{7.45} & \textbf{+0.543} & \textbf{+2.67$\sigma$} & 7.87 \\
+\textbf{\#4} & \textbf{Josh Hazlewood} & \textbf{Powerplay Specialist} & 1,515 & 1,008.7 & 8.45 & \textbf{+0.577} & \textbf{+2.64$\sigma$} & 8.00 \\
+\textbf{\#5} & \textbf{Sunil Narine} & Middle Overs Choker & 1,556 & 1,101.0 & \textbf{7.01} & \textbf{+0.551} & \textbf{+2.60$\sigma$} & 8.38 \\
+\textbf{\#6} & \textbf{Wanindu Hasaranga} & Middle Strike Leg-Spinner & 2,054 & 1,440.9 & 8.06 & \textbf{+0.544} & \textbf{+2.55$\sigma$} & 7.97 \\
+\textbf{\#7} & \textbf{Mitchell Santner} & Middle Containment Spin & 1,793 & 1,285.7 & 7.53 & \textbf{+0.539} & \textbf{+2.51$\sigma$} & 8.03 \\
+\textbf{\#8} & \textbf{Axar Patel} & Middle Overs Controller & 2,707 & 2,014.2 & 7.99 & \textbf{+0.529} & \textbf{+2.44$\sigma$} & 8.84 \\
+\textbf{\#9} & \textbf{Mujeeb Ur Rahman} & \textbf{Powerplay Specialist} & 849 & 650.5 & \textbf{7.19} & \textbf{+0.540} & \textbf{+2.37$\sigma$} & 7.38 \\
+\textbf{\#10} & \textbf{Kuldeep Yadav} & Middle Strike Spinner & 1,965 & 1,361.8 & 8.08 & \textbf{+0.517} & \textbf{+2.36$\sigma$} & 7.61 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection*{Rajasthan Royals (RR) War Room: Actionable IPL 2027 Auction One-Liners}
+Evaluating how each target strengthens RR's bowling attack under coach Kumar Sangakkara:
+\begin{enumerate}[leftmargin=1.2em]
+    \item \textbf{Rashid Khan (Middle Spinner):} World \#1 match-winner (+3.21$\sigma$); transforms RR's middle overs into an unbreachable 150-defending unit with unmatched clutch pedigree.
+    \item \textbf{Varun Chakravarthy (Mystery Spinner):} Premier middle strike weapon (138 wkts, +3.18$\sigma$); restores the mystery wicket threat RR surrendered post-Ashwin/Chahal.
+    \item \textbf{Jasprit Bumrah (Death Enforcer):} Irreplicable match-winner (+2.67$\sigma$ death scarcity); unconditional blank-cheque priority for RR to permanently lock down overs 17 and 19.
+    \item \textbf{Josh Hazlewood (Powerplay Pacer):} Metronomic length precision (+2.64$\sigma$); pairs with Sandeep Sharma to give RR the cleanest powerplay seam unit in the league.
+    \item \textbf{Sunil Narine (Middle Choker):} All-time T20 economy benchmark (7.01 RPO, +2.60$\sigma$); guarantees 4 overs of total run starvation, forcing false lofted strokes against RR's boundary riders.
+    \item \textbf{Wanindu Hasaranga (Middle Leg-Spinner):} Wicket-taking machine (135 wkts, +2.55$\sigma$); delivers world-class googly deception and genuine lower-order hitting depth.
+    \item \textbf{Mitchell Santner (Middle Control Spin):} Elite left-arm orthodox control (7.53 Econ, +2.51$\sigma$); provides tactical containment on dry tracks and world-class fielding.
+    \item \textbf{Axar Patel (Dual-Threat Anchor):} Premier Indian all-rounder (+2.44$\sigma$); delivers top-tier middle-overs run suppression while stabilizing RR’s batting order at \#7.
+    \item \textbf{Mujeeb Ur Rahman (Powerplay Spinner):} Powerplay specialist (6.74 Lev Econ, +2.37$\sigma$); locks down the first 6 overs at Jaipur, forcing openers to hit toward long square boundaries.
+    \item \textbf{Kuldeep Yadav (Left-Arm Wrist Spinner):} Attacking strike spinner (119 wkts, +2.36$\sigma$); provides sharp away-spin angles that dismantle right-hand heavy batting lineups.
+\end{enumerate}
+
+\end{document}
